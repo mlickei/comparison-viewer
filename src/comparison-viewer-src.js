@@ -95,7 +95,6 @@
 		});
 
 		function buildDraggable() {
-
 			viewer.$controlBar.draggable({
 				axis: "x",
 				containment: viewer.$viewer.get(0),
@@ -118,7 +117,7 @@
 
 		//Try to load the jquery ui script for dragging.
 		if (typeof jQuery.ui === 'undefined') {
-			$.getScript('https://cdn2.hubspot.net/hubfs/224752/assets/javascript/2017%20Design/jquery-ui.min.js', function () {
+			$.getScript('../libs/jquery-ui.min.js', function () {
 				buildDraggable();
 			});
 		} else {

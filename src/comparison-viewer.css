@@ -15,11 +15,11 @@
 	bottom: 0;
 	z-index: 1;
 	overflow: visible;
-	transition: right 1s, left 1s;
+	transition: right 1000ms, left 1000ms;
 }
 
 .comparison-viewer.dragging .view {
-	transition: right 0ms, left 0ms;
+	transition: none;
 }
 
 .comparison-viewer .left-view {
