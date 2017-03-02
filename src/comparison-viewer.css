@@ -1,0 +1,130 @@
+.comparison-viewer {
+	position: relative;
+	overflow: hidden;
+}
+
+.comparison-viewer.dragging {
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+	cursor: grabbing;
+}
+
+.comparison-viewer .view {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 1;
+	overflow: visible;
+	transition: right 1s, left 1s;
+}
+
+.comparison-viewer.dragging .view {
+	transition: right 0ms, left 0ms;
+}
+
+.comparison-viewer .left-view {
+	left: 0;
+	right: 50%;
+	z-index: 2;
+}
+
+.comparison-viewer.over-left .left-view {
+	right: 25%;
+}
+
+.comparison-viewer.over-right .left-view {
+	right: 75%;
+}
+
+.comparison-viewer .right-view {
+	left: 50%;
+	right: 0;
+}
+
+.comparison-viewer.over-left .right-view {
+	left: 75%;
+}
+
+.comparison-viewer.over-right .right-view {
+	left: 25%;
+}
+
+.comparison-viewer .view .inner-view-wrapper {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+}
+
+.comparison-viewer .view .inner-view {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
+
+.comparison-viewer .right-view .inner-view {
+	right: 0;
+}
+
+.comparison-viewer .left-view .inner-view {
+	left: 0;
+}
+
+.comparison-viewer .inner-view img {
+	width: 100%;
+	height: auto;
+}
+
+.comparison-viewer .view-ctrl-bar {
+	position: relative;
+	z-index: 3;
+	height: 100%;
+	max-width: 2px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #fff;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+	cursor: grab;
+}
+
+.comparison-viewer .view-ctrl-bar {
+	left: 100%;
+}
+
+.comparison-viewer .view-ctrl-bar .ctrl-circle {
+	display: flex;
+	align-items: center;
+	flex: 1 0 auto;
+	height: 25px;
+	width: 25px;
+	border-radius: 15px;
+	border: 2px solid #fff;
+}
+
+.comparison-viewer .view-ctrl-bar .ctrl-circle:before {
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	margin-right: auto;
+	margin-left: 2px;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-right: 7px solid #fff;
+}
+
+.comparison-viewer .view-ctrl-bar .ctrl-circle:after {
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	margin-left: auto;
+	margin-right: 2px;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 7px solid #fff;
+}
