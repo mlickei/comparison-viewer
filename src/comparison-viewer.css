@@ -18,7 +18,8 @@
 	transition: right 1000ms, left 1000ms;
 }
 
-.comparison-viewer.dragging .view {
+.comparison-viewer.dragging .view,
+.comparison-viewer.position-set .view {
 	transition: none;
 }
 

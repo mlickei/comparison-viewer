@@ -19,10 +19,13 @@
 		this.TRANSITION_DURATION = 1000;
 		this.viewerWidth = -1;
 		this.$container = $target;
+		this.currentLeft = -1;
+		this.lastViewerWidth = -1;
 	};
 
 	ComparisonViewer.prototype.updateInnerViewsWidth = function() {
 		var newWidth = this.$container.outerWidth();
+		this.lastViewerWidth = this.viewerWidth > 0 ? this.viewerWidth : newWidth;
 		this.viewerWidth = newWidth;
 		this.$innerViews.css('width', newWidth);
 	};
@@ -30,6 +33,14 @@
 	ComparisonViewer.prototype.updateViewByDrag = function(left) {
 		this.$leftView.css('right', this.viewerWidth - left);
 		this.$rightView.css('left', left);
+		this.currentLeft = left;
+	};
+
+	ComparisonViewer.prototype.updateOverlayWidths = function() {
+		var ratio = this.currentLeft / this.lastViewerWidth;
+		var newLeft = ratio * this.viewerWidth;
+		this.updateViewByDrag(newLeft);
+		this.$controlBar.css('left', newLeft);
 	};
 
 	ComparisonViewer.prototype.init = function() {
@@ -40,15 +51,12 @@
 		viewer.$rightView = this.$viewer.find('.right-view');
 		viewer.$controlBar = this.$viewer.find('.view-ctrl-bar');
 
-		var RESIZE_THROTTLE = 250,
-			resizeTimeout;
-
 		$(window).on('resize', function() {
-			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(function () {
-				viewer.updateInnerViewsWidth();
-				updateHeight();
-			}, RESIZE_THROTTLE);
+			viewer.updateInnerViewsWidth();
+			if(viewer.$viewer.hasClass('position-set')) {
+				viewer.updateOverlayWidths();
+			}
+			updateHeight();
 		});
 
 		var mouseActionTimeout,
@@ -95,13 +103,17 @@
 		});
 
 		function buildDraggable() {
-			viewer.$controlBar.draggable({
+			viewer.draggable = viewer.$controlBar.draggable({
 				axis: "x",
 				containment: viewer.$viewer.get(0),
 				drag: function(evt, ui) {
 					viewer.updateViewByDrag(ui.position.left);
 				},
 				start: function() {
+					if(!viewer.$viewer.hasClass('position-set')) {
+						viewer.$viewer.addClass('position-set');
+					}
+
 					viewer.$viewer.addClass('dragging').removeClass('over-left').removeClass('over-right');
 					$views.removeClass('hover');
 				},
