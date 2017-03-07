@@ -2,13 +2,13 @@
  * Created by matthew on 3/2/17.
  */
 (function($) {
+	
+	var $window = $(window);
+	
 	$.fn.comparisonViewer = function (options) {
-		this.each(function() {
-			var cv = new ComparisonViewer($(this), options);
-			cv.init();
+		return this.each(function() {
+			(new ComparisonViewer($(this), options)).init();
 		});
-
-		return this;
 	};
 
 	var ComparisonViewer = function($target, options) {
@@ -51,7 +51,7 @@
 		viewer.$rightView = this.$viewer.find('.right-view');
 		viewer.$controlBar = this.$viewer.find('.view-ctrl-bar');
 
-		$(window).on('resize', function() {
+		$window.on('resize', function() {
 			viewer.updateInnerViewsWidth();
 			if(viewer.$viewer.hasClass('position-set')) {
 				viewer.updateOverlayWidths();
@@ -76,9 +76,7 @@
 				lastView = 'over-right';
 				viewer.$viewer.addClass('over-right');
 			}
-		});
-
-		$views.on('mouseleave', function() {
+		}).on('mouseleave', function() {
 			var $view = $(this);
 			viewer.$viewer.removeClass('over-left').removeClass('over-right');
 			clearTimeout(mouseActionTimeout);
@@ -92,9 +90,7 @@
 			//Let's leave our bar where it is so it's easier to grab.
 			clearTimeout(mouseActionTimeout);
 			viewer.$viewer.addClass(lastView);
-		});
-
-		viewer.$controlBar.on('mouseleave', function () {
+		}).on('mouseleave', function () {
 			viewer.$viewer.removeClass('over-left').removeClass('over-right');
 
 			mouseActionTimeout = setTimeout(function() {
