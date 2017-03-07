@@ -1,0 +1,8 @@
+h1 {
+	text-align: center;
+}
+
+.gray img {
+	filter: grayscale(100%);
+	display: block;
+}

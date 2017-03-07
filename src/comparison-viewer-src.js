@@ -1,10 +1,23 @@
-/**
- * Created by matthew on 3/2/17.
- */
 (function($) {
 	$.fn.comparisonViewer = function (options) {
+		var finalOpts = $.extend(true, {
+			transitionDuration: 1000,
+			helpText: 'Click and drag to interact with.',
+			showHelpText: true,
+			showLeftButtonLabel: 'Show Left Side',
+			showLeftButton: false,
+			showRightButtonLabel: 'Show Right Side',
+			showRightButton: false,
+			revertButtonText: 'Revert',
+			showRevertButton: false
+			//TODO add options for the slider handle html
+			//TODO add events/functions
+			//TODO toggle revert button
+			//TODO toggle ability to revert back to hover effect
+		}, options);
+
 		this.each(function() {
-			var cv = new ComparisonViewer($(this), options);
+			var cv = new ComparisonViewer($(this), finalOpts);
 			cv.init();
 		});
 
@@ -15,8 +28,7 @@
 		this.options = options;
 		this.leftHtml = options.leftHtml;
 		this.rightHtml = options.rightHtml;
-		this.inited = false;
-		this.TRANSITION_DURATION = 1000;
+		this.transitionDuration = options.transitionDuration;
 		this.viewerWidth = -1;
 		this.$container = $target;
 		this.currentLeft = -1;
@@ -43,22 +55,7 @@
 		this.$controlBar.css('left', newLeft);
 	};
 
-	ComparisonViewer.prototype.init = function() {
-		var viewer = this;
-		viewer.$viewer = $('<div class="comparison-viewer"><div class="left-view view"><div class="view-ctrl-bar"><div class="ctrl-circle"></div></div><div class="inner-view-wrapper"><div class="inner-view">' + this.leftHtml + '</div></div></div><div class="right-view view"><div class="inner-view-wrapper"><div class="inner-view">' + this.rightHtml + '</div></div></div></div>').appendTo(viewer.$container);
-		viewer.$innerViews = this.$viewer.find('.inner-view');
-		viewer.$leftView = this.$viewer.find('.left-view');
-		viewer.$rightView = this.$viewer.find('.right-view');
-		viewer.$controlBar = this.$viewer.find('.view-ctrl-bar');
-
-		$(window).on('resize', function() {
-			viewer.updateInnerViewsWidth();
-			if(viewer.$viewer.hasClass('position-set')) {
-				viewer.updateOverlayWidths();
-			}
-			updateHeight();
-		});
-
+	function setupBasicEventHandlers(viewer) {
 		var mouseActionTimeout,
 			lastView,
 			$views = viewer.$viewer.find('.view');
@@ -85,7 +82,7 @@
 
 			mouseActionTimeout = setTimeout(function() {
 				$view.removeClass('hover');
-			}, viewer.TRANSITION_DURATION);
+			}, viewer.transitionDuration);
 		});
 
 		viewer.$controlBar.on('mouseenter', function() {
@@ -95,49 +92,130 @@
 		});
 
 		viewer.$controlBar.on('mouseleave', function () {
-			viewer.$viewer.removeClass('over-left').removeClass('over-right');
+			viewer.$viewer.removeClass('over-left').removeClass('over-right').addClass(lastView);
 
 			mouseActionTimeout = setTimeout(function() {
 				$views.removeClass('hover');
-			}, viewer.TRANSITION_DURATION);
+			}, viewer.transitionDuration);
 		});
+	}
+
+	function setupHelpText(viewer) {
+		if(viewer.options.showHelpText) {
+			viewer.$viewer.find('.inner-view-wrapper').append('<div class="hover-help-text">' + viewer.options.helpText + '</div>');
+		}
+	}
+
+	function updateHeight(viewer) {
+		viewer.$viewer.css('min-height', viewer.$innerViews.children().outerHeight());
+	}
+
+	function checkForWidthUpdate() {
+
+	}
+
+	function checkForHeightUpdate() {
+
+	}
+
+	function checkForWidthHeightUpdates() {
+		//TODO Recursion
+	}
+
+	function revert(viewer) {
+
+	}
+
+	function makeGeneralActionsContainer(viewer, $target) {
+		return $('<div class="comparison-viewer-actions"></div>').appendTo($target);
+	}
+
+	function setupButtons(viewer) {
+		var $generalActionsContainer;
+
+		if(viewer.options.showRevertButton) {
+			if(typeof $generalActionsContainer === 'undefined' || !$generalActionsContainer.length) {
+				$generalActionsContainer = makeGeneralActionsContainer(viewer, viewer.$viewer);
+			}
+
+			$('<button class="comparison-viewer-btn revert-btn">' + viewer.options.revertButtonText + '</button>')
+				.appendTo($generalActionsContainer)
+				.on('click', function () {
+					revert(viewer);
+				});
+		}
+
+		if(viewer.options.showLeftButton) {
+			$('<button class="comparison-viewer-btn show-left-btn">' + viewer.options.showLeftButtonLabel + '</button>')
+				.appendTo(makeGeneralActionsContainer(viewer, viewer.$leftView))
+				.on('click', function () {
+					viewer.$leftView.css('right', '100%');
+					viewer.$rightView.css('left', 0);
+				});
+		}
+
+		if(viewer.options.showRightButton) {
+			$('<button class="comparison-viewer-btn show-right-btn">' + viewer.options.showRightButtonLabel + '</button>')
+				.appendTo(makeGeneralActionsContainer(viewer, viewer.$rightView))
+				.on('click', function () {
+					viewer.$leftView.css('right', 0);
+					viewer.$rightView.css('left', 0);
+				});
+		}
+	}
+
+	ComparisonViewer.prototype.init = function() {
+		var viewer = this;
+		viewer.$viewer = $('<div class="comparison-viewer"><div class="left-view view"><div class="view-ctrl-bar"><div class="ctrl-circle"></div></div><div class="inner-view-wrapper"><div class="inner-view">' + this.leftHtml + '</div></div></div><div class="right-view view"><div class="inner-view-wrapper"><div class="inner-view">' + this.rightHtml + '</div></div></div></div>').appendTo(viewer.$container);
+		viewer.$innerViews = this.$viewer.find('.inner-view');
+		viewer.$leftView = this.$viewer.find('.left-view');
+		viewer.$rightView = this.$viewer.find('.right-view');
+		viewer.$controlBar = this.$viewer.find('.view-ctrl-bar');
+
+		$(window).on('resize', function() {
+			viewer.updateInnerViewsWidth();
+			if(viewer.$viewer.hasClass('position-set')) {
+				viewer.updateOverlayWidths();
+			}
+			updateHeight(viewer);
+		});
+
+		setupBasicEventHandlers(viewer);
+		setupHelpText(viewer);
+		setupButtons(viewer);
 
 		function buildDraggable() {
 			viewer.draggable = viewer.$controlBar.draggable({
 				axis: "x",
 				containment: viewer.$viewer.get(0),
-				drag: function(evt, ui) {
+				drag: function (evt, ui) {
 					viewer.updateViewByDrag(ui.position.left);
 				},
-				start: function() {
-					if(!viewer.$viewer.hasClass('position-set')) {
+				start: function () {
+					if (!viewer.$viewer.hasClass('position-set')) {
 						viewer.$viewer.addClass('position-set');
 					}
 
 					viewer.$viewer.addClass('dragging').removeClass('over-left').removeClass('over-right');
-					$views.removeClass('hover');
+					viewer.$viewer.find('.view').removeClass('hover');
 				},
-				stop: function() {
+				stop: function () {
 					viewer.$viewer.removeClass('dragging');
 				}
 			});
 		}
 
-		function updateHeight() {
-			viewer.$viewer.css('min-height', viewer.$innerViews.children().outerHeight());
-		}
-
 		//Try to load the jquery ui script for dragging.
 		if (typeof jQuery.ui === 'undefined') {
-			$.getScript('../libs/jquery-ui.min.js', function () {
-				buildDraggable();
-			});
+			console.error("jQuery UI Required to function");
 		} else {
 			buildDraggable();
 		}
 
 		viewer.updateInnerViewsWidth();
-		updateHeight();
+		updateHeight(viewer);
+		viewer.updateInnerViewsWidth();
+		updateHeight(viewer);
 
 		viewer.inited = true;
 	};

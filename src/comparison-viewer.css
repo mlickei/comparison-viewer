@@ -29,12 +29,13 @@
 	z-index: 2;
 }
 
+/* the order of over-left over-right matters! */
 .comparison-viewer.over-left .left-view {
-	right: 25%;
+	right: 43%;
 }
 
 .comparison-viewer.over-right .left-view {
-	right: 75%;
+	right: 57%;
 }
 
 .comparison-viewer .right-view {
@@ -43,11 +44,11 @@
 }
 
 .comparison-viewer.over-left .right-view {
-	left: 75%;
+	left: 57%;
 }
 
 .comparison-viewer.over-right .right-view {
-	left: 25%;
+	left: 43%;
 }
 
 .comparison-viewer .view .inner-view-wrapper {
@@ -57,6 +58,76 @@
 	bottom: 0;
 	left: 0;
 	overflow: hidden;
+}
+
+.comparison-viewer .view .inner-view-wrapper:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: transparent;
+	z-index: 2;
+	transition: background 250ms linear;
+}
+
+.comparison-viewer.position-set .view .inner-view-wrapper:before,
+.comparison-viewer.position-set .view .inner-view-wrapper:after {
+	display: none;
+}
+
+.comparison-viewer:hover .view .inner-view-wrapper:before {
+	background-color: rgba(31, 31, 31, 0.42);
+}
+
+.comparison-viewer .view .inner-view-wrapper:after {
+	content: "";
+	position: absolute;
+	top: calc(50% - 8px);
+	color: #fff;
+	z-index: 3;
+	opacity: 0;
+	transition: opacity 250ms linear;
+}
+
+.comparison-viewer .left-view.view .inner-view-wrapper:after {
+	content: ">";
+	right: 30px;
+}
+
+.comparison-viewer .right-view.view .inner-view-wrapper:after {
+	content: "<";
+	left: 30px;
+}
+
+.comparison-viewer .view .inner-view-wrapper:hover:after {
+	opacity: 1;
+}
+
+.comparison-viewer .view .hover-help-text {
+	position: absolute;
+	top: calc(50% - 8px);
+	color: #fff;
+	z-index: 3;
+	opacity: 0;
+	transition: opacity 250ms linear;
+}
+
+.comparison-viewer.position-set .view .hover-help-text {
+	display: none;
+}
+
+.comparison-viewer .view .inner-view-wrapper:hover .hover-help-text {
+	opacity: 1;
+}
+
+.comparison-viewer .left-view.view .hover-help-text {
+	right: 50px;
+}
+
+.comparison-viewer .right-view.view .hover-help-text {
+	left: 50px;
 }
 
 .comparison-viewer .view .inner-view {
@@ -74,6 +145,7 @@
 }
 
 .comparison-viewer .inner-view img {
+	display: block;
 	width: 100%;
 	height: auto;
 }
@@ -82,14 +154,22 @@
 	position: relative;
 	z-index: 3;
 	height: 100%;
-	max-width: 2px;
+	max-width: 36px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #fff;
 	cursor: -moz-grab;
 	cursor: -webkit-grab;
 	cursor: grab;
+	margin-left: -18px;
+}
+
+.comparison-viewer .view-ctrl-bar:before {
+	content: "";
+	position: absolute;
+	height: 100%;
+	width: 2px;
+	background-color: #fff;
 }
 
 .comparison-viewer .view-ctrl-bar {
@@ -101,7 +181,7 @@
 	align-items: center;
 	flex: 1 0 auto;
 	height: 25px;
-	width: 25px;
+	max-width: 25px;
 	border-radius: 15px;
 	border: 2px solid #fff;
 }
@@ -128,4 +208,25 @@
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
 	border-left: 7px solid #fff;
+}
+
+.comparison-viewer > .comparison-viewer-actions {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 4;
+}
+
+.comparison-viewer .view .comparison-viewer-actions {
+	position: absolute;
+	bottom: 10px;
+	z-index: 4;
+}
+
+.comparison-viewer .view.left-view .comparison-viewer-actions {
+	left: 10px;
+}
+
+.comparison-viewer .view.right-view .comparison-viewer-actions {
+	right: 10px;
 }
