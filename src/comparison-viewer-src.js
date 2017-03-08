@@ -145,7 +145,11 @@
 			$('<button class="comparison-viewer-btn show-left-btn">' + viewer.options.showLeftButtonLabel + '</button>')
 				.appendTo(makeGeneralActionsContainer(viewer, viewer.$leftView))
 				.on('click', function () {
-					viewer.$leftView.css('right', '100%');
+					if (!viewer.$viewer.hasClass('position-set')) {
+						viewer.$viewer.addClass('position-set');
+					}
+
+					viewer.$leftView.css('right', 0);
 					viewer.$rightView.css('left', 0);
 				});
 		}
@@ -154,7 +158,11 @@
 			$('<button class="comparison-viewer-btn show-right-btn">' + viewer.options.showRightButtonLabel + '</button>')
 				.appendTo(makeGeneralActionsContainer(viewer, viewer.$rightView))
 				.on('click', function () {
-					viewer.$leftView.css('right', 0);
+					if (!viewer.$viewer.hasClass('position-set')) {
+						viewer.$viewer.addClass('position-set');
+					}
+
+					viewer.$leftView.css('right', '100%');
 					viewer.$rightView.css('left', 0);
 				});
 		}
@@ -183,6 +191,7 @@
 		function buildDraggable() {
 			viewer.draggable = viewer.$controlBar.draggable({
 				axis: "x",
+				//FIXME use containment array [(X1 + barWidth), Y1, (X2 - barWidth), Y2] see http://stackoverflow.com/questions/14860845/jquery-draggable-containment-using-array-is-not-working-as-expected
 				containment: viewer.$viewer.get(0),
 				drag: function (evt, ui) {
 					viewer.updateViewByDrag(ui.position.left);

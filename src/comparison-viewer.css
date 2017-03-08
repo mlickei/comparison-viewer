@@ -173,7 +173,7 @@
 }
 
 .comparison-viewer .view-ctrl-bar {
-	left: 100%;
+	left: 100% !important;
 }
 
 .comparison-viewer .view-ctrl-bar .ctrl-circle {
