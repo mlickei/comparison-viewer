@@ -1,10 +1,13 @@
 .comparison-viewer {
 	position: relative;
+}
+
+.comparison-viewer .comparison-viewer-overflow-wrap {
+	position: relative;
 	overflow: hidden;
 }
 
 .comparison-viewer.dragging {
-	cursor: -moz-grabbing;
 	cursor: -webkit-grabbing;
 	cursor: grabbing;
 }
@@ -15,11 +18,13 @@
 	bottom: 0;
 	z-index: 1;
 	overflow: visible;
+	-webkit-transition: right 1000ms, left 1000ms;
 	transition: right 1000ms, left 1000ms;
 }
 
 .comparison-viewer.dragging .view,
 .comparison-viewer.position-set .view {
+	-webkit-transition: none;
 	transition: none;
 }
 
@@ -69,15 +74,18 @@
 	bottom: 0;
 	background-color: transparent;
 	z-index: 2;
+	-webkit-transition: background 250ms linear;
 	transition: background 250ms linear;
 }
 
 .comparison-viewer.position-set .view .inner-view-wrapper:before,
-.comparison-viewer.position-set .view .inner-view-wrapper:after {
+.comparison-viewer.position-set .view .inner-view-wrapper:after,
+.comparison-viewer.no-hover-effect .view .inner-view-wrapper:before,
+.comparison-viewer.no-hover-effect .view .inner-view-wrapper:after {
 	display: none;
 }
 
-.comparison-viewer:hover .view .inner-view-wrapper:before {
+.comparison-viewer .comparison-viewer-overflow-wrap:hover .view .inner-view-wrapper:before {
 	background-color: rgba(31, 31, 31, 0.42);
 }
 
@@ -88,6 +96,7 @@
 	color: #fff;
 	z-index: 3;
 	opacity: 0;
+	-webkit-transition: opacity 250ms linear;
 	transition: opacity 250ms linear;
 }
 
@@ -111,10 +120,12 @@
 	color: #fff;
 	z-index: 3;
 	opacity: 0;
+	-webkit-transition: opacity 250ms linear;
 	transition: opacity 250ms linear;
 }
 
-.comparison-viewer.position-set .view .hover-help-text {
+.comparison-viewer.position-set .view .hover-help-text,
+.comparison-viewer.no-hover-effect .view .hover-help-text {
 	display: none;
 }
 
@@ -151,17 +162,24 @@
 }
 
 .comparison-viewer .view-ctrl-bar {
-	position: relative;
+	/*position: relative;*/
+	position: absolute;
 	z-index: 3;
 	height: 100%;
 	max-width: 36px;
+	min-width: 36px;
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
 	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
 	align-items: center;
-	cursor: -moz-grab;
 	cursor: -webkit-grab;
 	cursor: grab;
-	margin-left: -18px;
+	margin-left: -36px;
 }
 
 .comparison-viewer .view-ctrl-bar:before {
@@ -170,15 +188,28 @@
 	height: 100%;
 	width: 2px;
 	background-color: #fff;
+	left: calc(50% - 1px);
+	top: 0;
 }
 
 .comparison-viewer .view-ctrl-bar {
-	left: 100% !important;
+	/*left: calc(100% + 18px) !important;*/
+	left: initial!important;
+	right: -18px;
 }
 
 .comparison-viewer .view-ctrl-bar .ctrl-circle {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
 	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-flex: 1;
+	-ms-flex: 1 0 auto;
 	flex: 1 0 auto;
 	height: 25px;
 	max-width: 25px;
@@ -210,14 +241,25 @@
 	border-left: 7px solid #fff;
 }
 
-.comparison-viewer > .comparison-viewer-actions {
+.comparison-viewer.inside-btn-placement .comparison-viewer-actions.main-btn-actions {
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	z-index: 4;
 }
 
-.comparison-viewer .view .comparison-viewer-actions {
+.comparison-viewer.outside-btn-placement {
+	margin-top: 30px;
+}
+
+.comparison-viewer.outside-btn-placement .comparison-viewer-actions.main-btn-actions {
+}
+
+.comparison-viewer .comparison-viewer-actions .comparison-viewer-btn {
+	white-space: nowrap;
+}
+
+.comparison-viewer.inside-btn-placement .view .comparison-viewer-actions {
 	position: absolute;
 	bottom: 10px;
 	z-index: 4;
