@@ -1,4 +1,7 @@
 (function($) {
+
+	var $window = $(window);
+
 	$.fn.comparisonViewer = function (options) {
 		var finalOpts = $.extend(true, {
 			transitionDuration: 1000,
@@ -16,12 +19,9 @@
 			//TODO toggle ability to revert back to hover effect
 		}, options);
 
-		this.each(function() {
-			var cv = new ComparisonViewer($(this), finalOpts);
-			cv.init();
+		return this.each(function() {
+			(new ComparisonViewer($(this), finalOpts)).init();
 		});
-
-		return this;
 	};
 
 	var ComparisonViewer = function($target, options) {
@@ -73,9 +73,7 @@
 				lastView = 'over-right';
 				viewer.$viewer.addClass('over-right');
 			}
-		});
-
-		$views.on('mouseleave', function() {
+		}).on('mouseleave', function() {
 			var $view = $(this);
 			viewer.$viewer.removeClass('over-left').removeClass('over-right');
 			clearTimeout(mouseActionTimeout);
@@ -89,9 +87,7 @@
 			//Let's leave our bar where it is so it's easier to grab.
 			clearTimeout(mouseActionTimeout);
 			viewer.$viewer.addClass(lastView);
-		});
-
-		viewer.$controlBar.on('mouseleave', function () {
+		}).on('mouseleave', function () {
 			viewer.$viewer.removeClass('over-left').removeClass('over-right').addClass(lastView);
 
 			mouseActionTimeout = setTimeout(function() {
@@ -172,7 +168,7 @@
 		viewer.$rightView = this.$viewer.find('.right-view');
 		viewer.$controlBar = this.$viewer.find('.view-ctrl-bar');
 
-		$(window).on('resize', function() {
+		$window.on('resize', function() {
 			viewer.updateInnerViewsWidth();
 			if(viewer.$viewer.hasClass('position-set')) {
 				viewer.updateOverlayWidths();
