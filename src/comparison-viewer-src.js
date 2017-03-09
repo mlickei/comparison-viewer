@@ -13,7 +13,8 @@
 			showRightButton: false,
 			revertButtonText: 'Revert',
 			showRevertButton: false,
-			buttonPlacement: 'outside' //Opts outside, inside
+			revertButtonPlacement: 'outside', //Opts outside, inside
+			leftRightButtonPlacement: 'outside'
 			//TODO add options for the slider handle html
 			//TODO add events/functions
 		}, options);
@@ -120,14 +121,12 @@
 	}
 
 	function setupButtons(viewer) {
-		viewer.$viewer.addClass(viewer.options.buttonPlacement + '-btn-placement');
-
 		var $generalActionsContainer;
 
 		if(viewer.options.showRevertButton) {
 			if(typeof $generalActionsContainer === 'undefined' || !$generalActionsContainer.length) {
 				$generalActionsContainer = makeGeneralActionsContainer(viewer, viewer.$viewer, false)
-					.addClass(viewer.options.buttonPlacement + '-main-actions main-btn-actions');
+					.addClass(viewer.options.revertButtonPlacement + '-main-actions main-btn-actions');
 			}
 
 			$('<button class="comparison-viewer-btn revert-btn">' + viewer.options.revertButtonText + '</button>')
@@ -138,7 +137,7 @@
 		}
 
 
-		var leftRightActionsContainer = makeGeneralActionsContainer(viewer, viewer.$viewer, true)
+		var bottomActionsContainer = makeGeneralActionsContainer(viewer, viewer.$viewer, true)
 			.addClass('left-right-actions');
 
 		if(viewer.options.showLeftButton) {
@@ -149,9 +148,9 @@
 					viewer.$rightView.css('left', 0);
 				});
 
-			if(viewer.options.buttonPlacement == 'outside') {
-				$bar.appendTo(leftRightActionsContainer);
-			} else if(viewer.options.buttonPlacement == 'inside') {
+			if(viewer.options.leftRightButtonPlacement == 'outside') {
+				$bar.appendTo(bottomActionsContainer);
+			} else if(viewer.options.leftRightButtonPlacement == 'inside') {
 				$bar.appendTo(makeGeneralActionsContainer(viewer, viewer.$leftView, true));
 			}
 		}
@@ -164,9 +163,9 @@
 					viewer.$rightView.css('left', 0);
 				});
 
-			if(viewer.options.buttonPlacement == 'outside') {
-				$bar.appendTo(leftRightActionsContainer);
-			} else if(viewer.options.buttonPlacement == 'inside') {
+			if(viewer.options.leftRightButtonPlacement == 'outside') {
+				$bar.appendTo(bottomActionsContainer);
+			} else if(viewer.options.leftRightButtonPlacement == 'inside') {
 				$bar.appendTo(makeGeneralActionsContainer(viewer, viewer.$rightView, true));
 			}
 		}

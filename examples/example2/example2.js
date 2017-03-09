@@ -6,6 +6,7 @@ jQuery(function ($) {
 		showLeftButtonText: 'Show Before',
 		showRightButton: true,
 		showRightButtonText: 'Show After',
-		showRevertButton: true
+		showRevertButton: true,
+		revertButtonPlacement: 'inside'
 	});
 });

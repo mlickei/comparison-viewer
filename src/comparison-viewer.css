@@ -7,11 +7,6 @@
 	overflow: hidden;
 }
 
-.comparison-viewer.dragging {
-	cursor: -webkit-grabbing;
-	cursor: grabbing;
-}
-
 .comparison-viewer .view {
 	position: absolute;
 	top: 0;
@@ -177,9 +172,15 @@
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
+	cursor: col-resize;
 	cursor: -webkit-grab;
 	cursor: grab;
 	margin-left: -36px;
+}
+
+.comparison-viewer.dragging .view-ctrl-bar {
+	cursor: -webkit-grabbing;
+	cursor: grabbing;
 }
 
 .comparison-viewer .view-ctrl-bar:before {
@@ -194,7 +195,7 @@
 
 .comparison-viewer .view-ctrl-bar {
 	/*left: calc(100% + 18px) !important;*/
-	left: initial!important;
+	left: auto!important;
 	right: -18px;
 }
 
@@ -211,8 +212,9 @@
 	-webkit-box-flex: 1;
 	-ms-flex: 1 0 auto;
 	flex: 1 0 auto;
-	height: 25px;
-	max-width: 25px;
+	height: 26px;
+	max-width: 26px;
+	min-width: 26px;
 	border-radius: 15px;
 	border: 2px solid #fff;
 }
@@ -227,6 +229,9 @@
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
 	border-right: 7px solid #fff;
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
 }
 
 .comparison-viewer .view-ctrl-bar .ctrl-circle:after {
@@ -239,20 +244,16 @@
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
 	border-left: 7px solid #fff;
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 auto;
+	flex: 0 0 auto;
 }
 
-.comparison-viewer.inside-btn-placement .comparison-viewer-actions.main-btn-actions {
+.comparison-viewer .comparison-viewer-actions.inside-main-actions.main-btn-actions {
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	z-index: 4;
-}
-
-.comparison-viewer.outside-btn-placement {
-	margin-top: 30px;
-}
-
-.comparison-viewer.outside-btn-placement .comparison-viewer-actions.main-btn-actions {
 }
 
 .comparison-viewer .comparison-viewer-actions .comparison-viewer-btn {
