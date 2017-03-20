@@ -171,6 +171,10 @@
 		}
 	}
 
+	function isImageLoaded(imgTag) {
+		return imgTag.complete && imgTag.naturalHeight !== 0;
+	}
+
 	ComparisonViewer.prototype.init = function() {
 		var viewer = this;
 		viewer.$viewer = $('<div class="comparison-viewer"><div class="comparison-viewer-overflow-wrap"><div class="left-view view"><div class="view-ctrl-bar"><div class="ctrl-circle"></div></div><div class="inner-view-wrapper"><div class="inner-view">' + this.leftHtml + '</div></div></div><div class="right-view view"><div class="inner-view-wrapper"><div class="inner-view">' + this.rightHtml + '</div></div></div></div></div>').appendTo(viewer.$container);
@@ -214,22 +218,44 @@
 					viewer.$viewer.removeClass('dragging');
 				}
 			});
+
+			setTimeout(function () {
+				viewer.updateInnerViewsWidth();
+				updateHeight(viewer);
+				viewer.updateInnerViewsWidth();
+				updateHeight(viewer);
+			}, 250);
 		}
 
 		//Try to load the jquery ui script for dragging.
 		if (typeof jQuery.ui === 'undefined') {
 			console.error("jQuery UI Required to function");
 		} else {
-			buildDraggable();
-		}
+			var $imgs = viewer.$innerViews.find('img');
+			if($imgs.length) {
+				var finishedImgs = 0;
+				for(var idx=0; idx<2; idx++) {
+					(function() {
+						var imgIdx = idx,
+							imgTag = $imgs.get(imgIdx),
+							imgInterval;
 
-		//This could probably go on for an infinite amount of time, but let's not
-		setTimeout(function () {
-			viewer.updateInnerViewsWidth();
-			updateHeight(viewer);
-			viewer.updateInnerViewsWidth();
-			updateHeight(viewer);
-		}, 250);
+						imgInterval = setInterval(function() {
+							if(isImageLoaded(imgTag)) {
+								clearInterval(imgInterval);
+								finishedImgs ++;
+
+								if(finishedImgs >= $imgs.length) {
+									buildDraggable();
+								}
+							}
+						}, 10);
+					})();
+				}
+			} else {
+				buildDraggable();
+			}
+		}
 
 		viewer.inited = true;
 	};
