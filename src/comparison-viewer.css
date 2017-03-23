@@ -13,13 +13,11 @@
 	bottom: 0;
 	z-index: 1;
 	overflow: visible;
-	-webkit-transition: right 1000ms, left 1000ms;
 	transition: right 1000ms, left 1000ms;
 }
 
 .comparison-viewer.dragging .view,
 .comparison-viewer.position-set .view {
-	-webkit-transition: none;
 	transition: none;
 }
 
@@ -69,7 +67,6 @@
 	bottom: 0;
 	background-color: transparent;
 	z-index: 2;
-	-webkit-transition: background 250ms linear;
 	transition: background 250ms linear;
 }
 
@@ -91,7 +88,6 @@
 	color: #fff;
 	z-index: 3;
 	opacity: 0;
-	-webkit-transition: opacity 250ms linear;
 	transition: opacity 250ms linear;
 }
 
@@ -115,7 +111,6 @@
 	color: #fff;
 	z-index: 3;
 	opacity: 0;
-	-webkit-transition: opacity 250ms linear;
 	transition: opacity 250ms linear;
 }
 
@@ -163,14 +158,14 @@
 	height: 100%;
 	max-width: 36px;
 	min-width: 36px;
-	display: -webkit-box;
 	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: center;
 	-ms-flex-pack: center;
+	-webkit-justify-content: center;
 	justify-content: center;
-	-webkit-box-align: center;
 	-ms-flex-align: center;
+	-webkit-align-items: center;
 	align-items: center;
 	cursor: col-resize;
 	cursor: -webkit-grab;
@@ -200,17 +195,17 @@
 }
 
 .comparison-viewer .view-ctrl-bar .ctrl-circle {
-	display: -webkit-box;
 	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
-	-webkit-box-align: center;
 	-ms-flex-align: center;
+	-webkit-align-items: center;
 	align-items: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	-webkit-box-flex: 1;
+	-webkit-justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
 	-ms-flex: 1 0 auto;
+	-webkit-flex: 1 0 auto;
 	flex: 1 0 auto;
 	height: 26px;
 	max-width: 26px;
@@ -229,8 +224,8 @@
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
 	border-right: 7px solid #fff;
-	-webkit-box-flex: 0;
 	-ms-flex: 0 0 auto;
+	-webkit-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
 
@@ -244,8 +239,8 @@
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
 	border-left: 7px solid #fff;
-	-webkit-box-flex: 0;
 	-ms-flex: 0 0 auto;
+	-webkit-flex: 0 0 auto;
 	flex: 0 0 auto;
 }
 
