@@ -5,7 +5,7 @@
 	$.fn.comparisonViewer = function (options) {
 		var finalOpts = $.extend(true, {
 			transitionDuration: 1000,
-			helpText: 'Click and drag to interact with.',
+			helpText: 'Click and drag to interact.',
 			showHelpText: true,
 			showLeftButtonLabel: 'Show Left Side',
 			showLeftButton: false,
