@@ -34,7 +34,7 @@ jQuery(function ($) {
 	});
 });
 ```
-Events Triggered:
+#### Events Triggered:
 
 **cv_drag** - Occurs when the control bar is dragged.
 
