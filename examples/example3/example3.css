@@ -1,0 +1,20 @@
+h2 {
+	margin: 0;
+	padding-top: 10px;
+}
+
+.inner-view {
+	text-align: center;
+}
+
+.red {
+	background-color: #ff2a34;
+	color: #e5e5e5;
+	height: 200px;
+}
+
+.blue {
+	background-color: #543aff;
+	color: #e5e5e5;
+	height: 200px;
+}

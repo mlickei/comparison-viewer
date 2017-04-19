@@ -1,6 +1,12 @@
 (function($) {
 
-	var $window = $(window);
+	var $window = $(window),
+		EVENTS = {
+			DRAG: "cv_drag",
+			REVERT: "cv_revert",
+			SHOW_LEFT: "cv_show_left",
+			SHOW_RIGHT: "cv_show_right"
+		};
 
 	$.fn.comparisonViewer = function (options) {
 		var finalOpts = $.extend(true, {
@@ -131,8 +137,9 @@
 
 			$('<button class="comparison-viewer-btn revert-btn">' + viewer.options.revertButtonText + '</button>')
 				.appendTo($generalActionsContainer)
-				.on('click', function () {
+				.on('click', function (evt) {
 					revert(viewer);
+					viewer.$container.trigger(EVENTS.REVERT, {event: evt});
 				});
 		}
 
@@ -142,7 +149,8 @@
 
 		if(viewer.options.showLeftButton) {
 			var $bar = $('<button class="comparison-viewer-btn show-left-btn">' + viewer.options.showLeftButtonLabel + '</button>')
-				.on('click', function () {
+				.on('click', function (evt) {
+					viewer.$container.trigger(EVENTS.SHOW_LEFT, {event: evt});
 					viewer.$viewer.addClass('no-hover-effect').removeClass('position-set');
 					viewer.$leftView.css('right', 0);
 					viewer.$rightView.css('left', 0);
@@ -157,7 +165,8 @@
 
 		if(viewer.options.showRightButton) {
 			var $bar = $('<button class="comparison-viewer-btn show-right-btn">' + viewer.options.showRightButtonLabel + '</button>')
-				.on('click', function () {
+				.on('click', function (evt) {
+					viewer.$container.trigger(EVENTS.SHOW_RIGHT, {event: evt});
 					viewer.$viewer.addClass('no-hover-effect').removeClass('position-set');
 					viewer.$leftView.css('right', '100%');
 					viewer.$rightView.css('left', 0);
@@ -204,6 +213,7 @@
 					left: 36
 				},
 				drag: function (evt, ui) {
+					viewer.$container.trigger(EVENTS.DRAG, {ui: ui, event: evt});
 					viewer.updateViewByDrag(ui.position.left);
 				},
 				start: function () {

@@ -12,6 +12,40 @@
 
 **showHelpText** *Optional `default true`* - Whether or not the help text should be added to the comparison viewer.
 
+TODO: Update with all new options
+
+## Events
+To get events triggered by ComparisonViewer, simple attach an event listener to your comparison viewer target.
+
+Example:
+```javascript
+jQuery(function ($) {
+	var $viewer = $('.example-container').comparisonViewer({
+		leftHtml: '<div class="red"><h2>Left Side</h2></div>',
+		rightHtml: '<div class="blue"><h2>Right Side</h2></div>'
+	}).on('cv_drag', function() {
+		addLog("Drag event has occurred.");
+	}).on('cv_revert', function() {
+		addLog("Revert button pressed.");
+	}).on('cv_show_left', function() {
+		addLog("Show left button pressed.");
+	}).on('cv_show_right', function() {
+		addLog("Show right button pressed.");
+	});
+});
+```
+Events Triggered:
+
+**cv_drag** - Occurs when the control bar is dragged.
+
+**cv_revert** - Occurs when the revert button is triggered.
+
+**cv_show_left** - Occurs when the show left button is triggered.
+
+**cv_show_right** - Occurs when the show right button is triggered.
+
+TODO include info about data passed along.
+
 ## Requirements & Recommendations
 Required: jQuery UI 3.1.1 +
 
