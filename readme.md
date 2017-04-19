@@ -1,6 +1,16 @@
 # Comparison Viewer
 ### Compare anything side by side using a sliding handle to see more or less of one side.
 
+## Table of Contents
+
+[Options](#options)
+
+[Events](#events)
+
+[Requirements & Recommendations](#requirements--recommendations)
+
+[Examples](#examples)
+
 ## Options
 **transitionDuration:** *Optional `default 1000`* - Milliseconds that it'll take for transitions on the hover/over effects.
 
