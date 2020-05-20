@@ -74,10 +74,14 @@
 
 			if($view.hasClass('left-view')) {
 				lastView = 'over-left';
-				viewer.$viewer.addClass('over-left');
+				if(!viewer.$viewer.hasClass('position-set')) {
+					viewer.$viewer.addClass('over-left');
+				}
 			} else {
 				lastView = 'over-right';
-				viewer.$viewer.addClass('over-right');
+				if(!viewer.$viewer.hasClass('position-set')) {
+					viewer.$viewer.addClass('over-right');
+				}
 			}
 		}).on('mouseleave', function() {
 			var $view = $(this);
@@ -92,9 +96,15 @@
 		viewer.$controlBar.on('mouseenter', function() {
 			//Let's leave our bar where it is so it's easier to grab.
 			clearTimeout(mouseActionTimeout);
-			viewer.$viewer.addClass(lastView);
+			if(!viewer.$viewer.hasClass('position-set')) {
+				viewer.$viewer.addClass(lastView);
+			}
 		}).on('mouseleave', function () {
-			viewer.$viewer.removeClass('over-left').removeClass('over-right').addClass(lastView);
+			viewer.$viewer.removeClass('over-left').removeClass('over-right')
+
+			if(!viewer.$viewer.hasClass('position-set')) {
+				viewer.$viewer.addClass(lastView);
+			}
 
 			mouseActionTimeout = setTimeout(function() {
 				$views.removeClass('hover');
@@ -105,6 +115,8 @@
 	function setupHelpText(viewer) {
 		if(viewer.options.showHelpText) {
 			viewer.$viewer.find('.inner-view-wrapper').append('<div class="hover-help-text">' + viewer.options.helpText + '</div>');
+		} else {
+			viewer.$viewer.addClass('position-set');
 		}
 	}
 
